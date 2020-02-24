@@ -11,18 +11,25 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
-
+find_package(Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt5 COMPONENTS Gui REQUIRED)
 set(VIEW_INC "view/inc")
 set(VIEW_SRC "view/src")
 
-include_directories(${VIEW_INC})
 set(SOURCES
     main.cpp
     ${VIEW_SRC}/MainView.cpp
 )
 
-add_executable(helloworld
-    ${SOURCES}
+set(HEADERS
+    ${VIEW_INC}/MainView.h
 )
 
-target_link_libraries(helloworld Qt5::Widgets)
+include_directories(${VIEW_INC})
+
+add_executable(helloworld
+    ${SOURCES}
+    ${HEADERS}
+)
+
+target_link_libraries(helloworld Qt5::Widgets Qt5::Core Qt5::Gui)
