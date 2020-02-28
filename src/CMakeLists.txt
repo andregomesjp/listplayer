@@ -1,35 +1,36 @@
-cmake_minimum_required(VERSION 3.1.0)
-
-project(helloworld)
-
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
-if(CMAKE_VERSION VERSION_LESS "3.7.0")
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-endif()
-
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt5 COMPONENTS Core REQUIRED)
-find_package(Qt5 COMPONENTS Gui REQUIRED)
-set(VIEW_INC "view/inc")
-set(VIEW_SRC "view/src")
-
 set(SOURCES
     main.cpp
-    ${VIEW_SRC}/MainView.cpp
+    ${VIEW_SRC}/PlaylistListView.cpp
+    ${MODEL_SRC}/Playlist.cpp
+    ${MODEL_SRC}/PlaylistListModel.cpp
+    ${CONTROLLER_SRC}/PlaylistListController.cpp
 )
 
 set(HEADERS
-    ${VIEW_INC}/MainView.h
+    ${VIEW_INC}/PlaylistListView.h
+    ${MODEL_INC}/Playlist.h
+    ${MODEL_INC}/PlaylistListModel.h
+    ${CONTROLLER_INC}/PlaylistListController.h
 )
 
-include_directories(${VIEW_INC})
+set(
+    EXECUTABLE_OUTPUT_PATH ${APP_PATH}
+)
 
-add_executable(helloworld
+include_directories(
+    ${SRC_DIR}
+    ${VIEW_INC}
+    ${MODEL_INC}
+    ${CONTROLLER_INC}
+)
+
+add_definitions(-DRES_DIR="${APP_RES_DIR}")
+
+add_executable(${CMAKE_PROJECT_NAME}
     ${SOURCES}
     ${HEADERS}
 )
 
-target_link_libraries(helloworld Qt5::Widgets Qt5::Core Qt5::Gui)
+#if unit tests
+
+target_link_libraries(${CMAKE_PROJECT_NAME} Qt5::Widgets Qt5::Core Qt5::Gui)
